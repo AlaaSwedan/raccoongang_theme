@@ -1,0 +1,79 @@
+## mako
+<%page expression_filter="h"/>
+<%!
+  from django.core.urlresolvers import reverse
+  from django.utils.translation import ugettext as _
+  from branding.api import get_footer
+%>
+<% footer = get_footer(is_secure=is_secure) %>
+<%namespace name='static' file='static_content.html'/>
+
+<footer class="theme-footer">
+  <div class="theme-footer_holder">
+    <div class="theme-footer_section">
+      <span class="theme-footer_text">If you have some questions please contact us</span>
+      <a class="theme-btn theme-btn__contact" href="/contact">Contact us</a>
+    </div>
+  </div>
+  <div class="theme-footer_holder theme-footer_holder__color">
+    <div class="theme-footer_wrapper">
+      <div class="theme-footer_col">
+        <h2 class="theme-footer_col-header">About the Egymoocs</h2>
+        <div class="theme-footer_col-holder">
+          <p class="copyright">${_("All rights reserved to Ministry of Higher Education, Ministry of Communications and Information Technology and Supreme Council of Universities")} © 2017</p> 
+        </div>
+       
+      </div>
+      <div class="theme-footer_col">
+     <ol class="Dis_footer">
+                                % for item_num, link in enumerate(footer['navigation_links'], start=1):
+                                <li class="nav-colophon-0${item_num}">
+                                  <a id="${link['name']}" href="${link['url']}">${link['title']}</a>
+                                </li>
+                                % endfor
+                            </ol>
+      </div>
+      <div class="theme-footer_col">
+        <h2 class="theme-footer_col-header">Contact us</h2>
+        <div class="theme-footer_col-holder">
+        <ul class="listnone">
+                            <li class="f-color"><a href="https://www.facebook.com/Egymooc/" ><i class="fa fa-facebook f-color"></i>Facebook</a></li>
+                            <!-- <li><a href="#"><i class="fa fa-google-plus"></i>Google Plus</a></li> -->
+                            <li class="t-color"><a href="https://twitter.com/EGYMOOCS1"><i class="fa fa-twitter t-color"></i>Twitter</a></li>
+                            <li class="y-color"><a href="https://www.youtube.com/channel/UCfqWwov7bpX5WUb1SYVDeLg"><i class="fa fa-youtube y-color"></i>Youtube</a></li>
+                            <!-- <li><a href="#"><i class="fa fa-linkedin"></i>Linked In</a></li> -->
+                        </ul>
+      </div>
+    </div>
+   
+    </div>
+     <div class="theme-footer_section">
+      <div class="theme-footer_copyright">
+        <div class="row Dis_Footer">
+              <div >
+                    <p> 
+                   ${_("Designed and customized by")}<a  target="_blank" href="http://edeltasoft.com" rel="home"> Delta Soft &nbsp; <img src="http://edeltasoft.com/wp-content/uploads/2016/04/delta_icon.png" alt=""> </a>
+                    </p>
+                </div>
+                <div>
+                <p >
+                <a href="/termsOFservice">${_("Terms of Service and Academic Charter of Honor")}</a> 
+                      
+                </p>                    
+           
+                </div>
+        </div>
+      </div>
+  </div>
+</footer>
+% if include_dependencies:
+  <%static:js group='base_vendor'/>
+  <%static:css group='style-vendor'/>
+  <%include file="widgets/segment-io.html" />
+  <%include file="widgets/segment-io-footer.html" />
+% endif
+% if footer_css_urls:
+  % for url in footer_css_urls:
+    <link rel="stylesheet" type="text/css" href="${url}"></link>
+  % endfor
+% endif
